@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Latihan 2 - M3</title>
+</head>
+
+<body>
+    <h1>Validasi Input</h1>
+    <p>Masukkan nama, password, dan alamat email anda: </p>
+    Nama     : <input type="text" id="nama" style="margin-left: 25px; margin-bottom: 15px;" >
+    <br>
+    Password : <input type="password" id="password" style="margin-left: 25px; margin-bottom: 15px;">
+    <br>
+    E-mail   : <input type="email" id="email" style="margin-left: 25px">
+    <br>
+
+    <button onclick="klik()">Klik</button>
+
+    <script>
+        function klik() {
+            var password_input, password_check, text;
+            var password_check = "sss";
+            password_input = document.getElementById("password").value;
+            
+            if (password_input === password_check) {
+                text = "Password benar!";
+                alert(text);
+            }
+
+            else {
+                text = "Password salah!"
+                alert(text);
+            }
+        }
+    </script>
+</body>
+</html>

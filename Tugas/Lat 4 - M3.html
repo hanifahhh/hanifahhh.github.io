@@ -1,0 +1,44 @@
+<html> 
+<head> 
+<title>Latihan 4 - M3</title> 
+</head>
+
+<body> 
+    <h1>Cek Bilangan Prima</h1>
+    <p>Masukkan angka untuk mengetahui berapa banyak bilangan prima: </p>
+
+    Angka : <input type="text" id="input_number" style="margin-left: 10px;margin-bottom:10px ;">
+    <br>
+
+    <button type="button" onclick="CalcPrime()">Hitung!</button>
+    <br>
+    <br> 
+
+    Hasil: <span id="hasil"></span> 
+
+        <script> 
+            function CalcPrime() 
+            { 
+                var a = document.getElementById("input_number").value; 
+            
+                if(a >= 0){ 
+                    for(i = 2; i <= a; i++){ 
+                        var output = false; 
+                        for(j = 2; j < i; j++){ 
+                         if(i % j == 0)output = true; 
+                        } 
+        
+                       if(!output){ 
+                            if(i > 2){
+                             document.getElementById("hasil").innerHTML+=", "; 
+                            }
+                        
+                        document.getElementById("hasil").innerHTML+=i; 
+                            
+                        } 
+                    } 
+                }   
+            } 
+        </script> 
+</body> 
+</html> 

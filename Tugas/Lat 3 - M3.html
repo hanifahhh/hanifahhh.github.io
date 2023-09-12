@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Latihan 3 - M3</title>
+</head>
+
+<body>
+    <h1>Validasi Umur</h1>
+    <p>Masukkan nama dan umur anda: </p>
+    Nama : <input type="text" id="input_name" style="margin-left: 10px; margin-bottom: 10px;">
+    <br>
+    Umur : <input type="text" id="input_age" style="margin-left: 10px; margin-bottom: 10px">
+    <br>
+
+    <button onclick="klik()">Klik!</button>
+
+    <script>
+        function klik(){
+            var name, age, text;
+            name = document.getElementById("input_name").value;
+            age = document.getElementById("input_age").value;
+
+            if (name == ""  && age == "")  {
+                text = "'ISIKAN NAMA DAN UMUR ANDA!!'";
+                alert(text);
+            }
+
+            else if (name == "" )  {
+                text = "'ISIKAN NAMA ANDA!!'";
+                alert(text);
+            }
+
+            else if (age == ""){
+                text = "'ISIKAN UMUR ANDA!!'";
+                alert(text);
+            }
+
+            else if(age == 0 || age < 0){
+                text = "'Anda Game over!'";
+                alert(text);
+            }
+            
+            else if(age > 0 && age < 5){
+                text = "'Anda masih bayi'";
+                alert(text);
+            }
+
+            else if(age >= 6 && age <= 15){
+                text = "'Anda masih anak-anak'";
+                alert(text);
+            }
+
+            else if(age >= 16 && age <= 30){
+                text = "'Anda masih remaja'";
+                alert(text);
+            }
+
+            else{
+                text = "'Anda sudah dewasa'";
+                alert(text);
+            }
+        }
+    </script>
+</body>
+</html>

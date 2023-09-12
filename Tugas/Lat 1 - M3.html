@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Latihan 1 - M3</title>
+</head>
+
+<body>
+    <h1>Hitung faktorial dari input</h1>
+    <h3>Masukkan sembarang angka</h3>
+    
+    <input id="datainput" type="number" style="float: left;"/>
+    <input type="button" value="hitung!" onclick="hitung()"/>
+
+    <p id='hasil'></p>
+        <script>
+            function hitung() {
+                var i, num, f;
+                f = 1;
+                num = document.getElementById('datainput').value;
+                
+                for(i=1; i<=num; i++) {
+                    f = f*i
+                }
+
+                document.getElementById("hasil").innerHTML = "Angka faktorial dari " + num + " adalah: " +f ;
+            }
+        </script>
+
+</body>
+</html>
