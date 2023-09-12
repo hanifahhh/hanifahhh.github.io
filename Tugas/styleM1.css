@@ -1,0 +1,43 @@
+/*BAGIAN TOP HEADER*/
+.Top-Nav{
+    background-color: rgb(110, 17, 122); height: 80px;  width: 1200px;
+}
+
+.Top-Nav h1{
+    color:white; text-align: center; margin-top: 0px;
+}
+
+/*BAGIAN SAMPING KIRI HTML*/
+.Left-Content{
+    background-color: rgb(31, 30, 30);  height: 450px;  width: 200px;  float:left;
+}
+
+.Left-Content a{
+    text-decoration: none; color:rgb(255, 255, 255);
+}
+
+.Left-Content h2{
+    margin-left:20px;
+}
+
+/*KONTEN UTAMA*/
+.artikel{
+    height: 450px; width: 800px;  float:left;
+}
+
+.artikel article {
+    margin-left: 30px;
+}
+
+.artikel p {
+    width: 450px; text-align:justify; font-size:larger;
+}
+
+/*BAGIAN FOOTER*/
+.footer{
+    background-color: rgb(110, 17, 122); height: 50px; width: 1200px; float: left;
+}
+
+.footer h4{
+    color:white; text-align: center; margin-top:1px;
+}
