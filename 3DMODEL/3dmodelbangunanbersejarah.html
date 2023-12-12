@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.112/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.112/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <div id="cesiumContainer"></div>
+  <button id="toggle-building">Toggle new building</button>
+  <script type="module">
+    // This is the default access token from your ion account
+    Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3N2U5MGFjMC1kYzAyLTRiZGUtYjkzOS1kNjMxYzliY2JiYWYiLCJpZCI6MTgxNjYyLCJpYXQiOjE3MDEzMjQxMjV9.FuQwfDeAsIwlLt-r8vWSOaNPoi3CCL_rvZe6IxqWhFk';
+    
+    // Initialize the viewer with Cesium World Terrain.
+    const viewer = new Cesium.Viewer('cesiumContainer', {
+      terrain: Cesium.Terrain.fromWorldTerrain(),
+    });
+
+    // Add Cesium OSM Buildings.
+    const buildingsTileset = await Cesium.createOsmBuildingsAsync();
+    viewer.scene.primitives.add(buildingsTileset);
+  
+    // FLIGHT TRACKER
+    const flightData = JSON.parse(
+          '[{"longitude":110.41061834140618,"latitude":-6.9839476324300165,"height":100},{"longitude":110.4107406226816,"latitude":-6.983817588861811,"height":100},{"longitude":110.41091094303033,"latitude":-6.983956302000266,"height":100},{"longitude":110.41069695079818,"latitude":-6.984138362931134,"height":100},{"longitude": 110.41049787206043,"latitude":-6.983924701929482,"height":100},{"longitude":110.41074296484089,"latitude":-6.9836855861358345,"height":100},{"longitude":110.41102366939327,"latitude":-6.983928860463706,"height":100},{"longitude":110.41069268939827,"latitude":-6.984219957784319,"height":100},{"longitude":110.41039313155545,"latitude":-6.983872720245358,"height":100},{"longitude":110.410734585601,"latitude":-6.9835254824494655,"height":100},{"longitude":110.41114726318892,"latitude":-6.983937177532837,"height":100},{"longitude":110.41066755167861,"latitude":-6.98432392106875,"height":100}, {"longitude":110.41026953776134,"latitude":-6.983829055626543,"height":100}, {"longitude":110.4107597233222,"latitude":-6.983377854325752,"height":100}, {"longitude":110.41137140786799,"latitude":-6.983972525073241,"height":100}, {"longitude":110.41072253614863,"latitude":-6.9844189492117295,"height":100}, {"longitude":110.41016001408605,"latitude":-6.983758047351174,"height":100}]'
+        );
+
+    const timeStepInSeconds = 30;
+    const totalSeconds = timeStepInSeconds * (flightData.length - 1);
+    const start = Cesium.JulianDate.fromIso8601("2023-12-09T23:10:00Z");
+    const stop = Cesium.JulianDate.addSeconds(start, totalSeconds, new Cesium.JulianDate());
+    viewer.clock.startTime = start.clone();
+    viewer.clock.stopTime = stop.clone();
+    viewer.clock.currentTime = start.clone();
+    viewer.timeline.zoomTo(start, stop);
+        // Speed up the playback speed 50x.
+    viewer.clock.multiplier = 9;
+        // Start playing the scene.
+    viewer.clock.shouldAnimate = true;
+
+    const positionProperty = new Cesium.SampledPositionProperty();
+      for (let i = 0; i < flightData.length; i++) {
+          const dataPoint = flightData[i];
+
+          // Declare the time for this individual sample and store it in a new JulianDate instance.
+    const time = Cesium.JulianDate.addSeconds(start, i * timeStepInSeconds, new Cesium.JulianDate());
+    const position = Cesium.Cartesian3.fromDegrees(dataPoint.longitude, dataPoint.latitude, dataPoint.height);
+          // Store the position along with its timestamp.
+          // Here we add the positions all upfront, but these can be added at run-time as samples are received from a server.
+      positionProperty.addSample(time, position);
+
+    viewer.entities.add({
+      description: `Location: (${dataPoint.longitude}, ${dataPoint.latitude}, ${dataPoint.height})`,
+      position: position,
+      point: { pixelSize: 0, color: Cesium.Color.RED } //gantiiii
+      });
+    }
+
+        // airplane entity
+    async function loadModel() {
+      const airplaneUri = await Cesium.IonResource.fromAssetId(2384873);
+      const airplaneEntity = viewer.entities.add({
+        availability: new Cesium.TimeIntervalCollection([ new Cesium.TimeInterval({ start: start, stop: stop }) ]),
+        position: positionProperty,
+        model: { uri: airplaneUri},
+            // Automatically compute the orientation from the position.
+        orientation: new Cesium.VelocityOrientationProperty(positionProperty),    
+        path: new Cesium.PathGraphics({ width: 0 }) //GANTII DISINII YAAA
+        });
+          
+      viewer.trackedEntity = airplaneEntity;
+      }
+      loadModel();  
+
+    async function addBuildingGeoJSON() {
+      const geoJSONURL = await Cesium.IonResource.fromAssetId(2387512);
+      const geoJSON = await Cesium.GeoJsonDataSource.load(geoJSONURL, { clampToGround: true });
+      const dataSource = await viewer.dataSources.add(geoJSON);
+      for (const entity of dataSource.entities.values) {
+        entity.polygon.classificationType = Cesium.ClassificationType.TERRAIN;
+      }
+    }
+    addBuildingGeoJSON();
+
+    buildingsTileset.style = new Cesium.Cesium3DTileStyle({
+      show: {
+        conditions : [
+          ['${elementId} === 	23960198', false],
+          [true, true]
+        ]
+      },
+      color: "Boolean(${feature['cesium#color']}) ? color(${feature['cesium#color']}) : color('#ffffff')"
+    });
+
+    const newBuildingTileset = await Cesium.Cesium3DTileset.fromIonAssetId(2387512);
+    viewer.scene.primitives.add(newBuildingTileset);
+
+  </script>
+</body>
+</html>
