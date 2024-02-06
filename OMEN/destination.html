@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    <link rel="stylesheet" href="./global-destination.css" />
+    <link rel="stylesheet" href="./index-destination.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Josefin Sans:wght@400;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Arimo:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Irish Grover:wght@400&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&display=swap"
+    />
+  </head>
+  <body>
+    <div class="desktop-23">
+      <img
+        class="n-waifu2x-photo-noise3-scale1-icon"
+        alt=""
+        src="./public/40647428-1650161421756011-7002813122188192764-n-waifu2x-photo-noise3-scale1-1@2x.png"
+      />
+
+      <img
+        class="n-waifu2x-photo-noise3-scale1-icon1"
+        alt=""
+        src="./public/40647428-1650161421756011-7002813122188192764-n-waifu2x-photo-noise3-scale1-2@2x.png"
+      />
+
+      <img class="desktop-23-child" alt="" src="./public/arrow-3.svg"/>
+
+      <div class="desktop-23-item" id="rectangle"></div>
+      <div class="search-box">
+        <input type="text" placeholder="Search">
+        <div class="search-icon">
+          <i class="fas fa-search"></i>
+        </div>
+        <div class="cancel-icon">
+          <i class="fas fa-times"></i>
+        </div>
+        <div class="search-data"></div>
+        <div class="next"><a href='./destination2.html'>NEXT</a></div>
+      </div>
+      <script>
+        const searchBox = document.querySelector(".search-box");
+        const searchBtn = document.querySelector(".search-icon");
+        const cancelBtn = document.querySelector(".cancel-icon");
+        const searchInput = document.querySelector("input");
+        const searchData = document.querySelector(".search-data");
+        searchBtn.onclick=()=>{
+          searchBox.classList.add("active");
+          searchBtn.classList.add("active");
+          cancelBtn.classList.add("active");
+          searchInput.classList.add("active");
+          searchInput.focus();
+          if(searchInput.value != ""){
+          var values=searchInput.value;
+          searchData.classList.remove("active");
+          searchData.innerHTML="Search" + "<span style='font-weight:100;'>" + values + "</span>";
+          }
+          else{
+            searchData.textContent = "";
+          }
+        }
+        cancelBtn.onclick =()=>{
+          searchBox.classList.remove("active");
+          searchBtn.classList.remove("active");
+          searchInput.classList.remove("active");
+          cancelBtn.classList.remove("active");
+          searchData.classList.toggle("active");
+          searchInput.value ="";
+        }
+      </script>
+  
+  </body>
+</html>
